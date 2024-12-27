@@ -16,14 +16,14 @@ function Register() {
 
 
 
-      const fetchUserData = async (authToken) => {
+      const fetchUserData = async (token) => {
         try {
           const response = await fetch(
             "https://react-interview.crd4lc.easypanel.host/api/user",
             {
               method: "GET",
               headers: {
-                "Authorization": `Bearer ${authToken}`,
+                "Authorization": `Bearer ${token}`,
                 "Accept": "Application/json",
               },
             }

@@ -1,69 +1,75 @@
-/* Full-page container to center the form */
-body {
+/* General container styles */
+div {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Center the form on the page */
+  body {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0; /* Light background for contrast */
-    font-family: Arial, sans-serif;
+    height: 100vh;
+    background-color: #f5f5f5; /* Light gray background */
   }
   
-  /* General styles for the form container */
-  /* .form-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
+  /* Form container */
+  form {
     background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
   }
-   */
-  /* Heading style */
-  .registration-form h2 {
+  
+  /* Form heading */
+  h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
   }
   
-  /* Form group styling */
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  /* Label styling */
-  .form-group label {
+  /* Form input group */
+  div > label {
     display: block;
     font-size: 14px;
     color: #555;
     margin-bottom: 5px;
   }
   
-  /* Input field styling */
-  .form-group input {
+  div > input {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-bottom: 15px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
   }
   
-  /* Input hover and focus effect */
-  .form-group input:focus {
+  /* Input hover and focus effects */
+  div > input:focus {
     border-color: #007bff;
     outline: none;
   }
   
-  /* Submit button styling */
+  /* Error message styling */
+  div > div[style] {
+    color: red;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  /* Submit button */
   button[type="submit"] {
     width: 100%;
     padding: 10px;
     font-size: 16px;
     background-color: #007bff;
-    color: #fff;
+    color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -75,33 +81,32 @@ body {
     background-color: #0056b3;
   }
   
-  /* Message paragraph styling */
-  .message {
+  /* User information styling */
+  h3 {
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Loading message styling */
+  div > div {
     text-align: center;
-    color: #28a745;
+    color: #666;
     font-size: 14px;
     margin-top: 10px;
   }
-
-
-  .welcome{
-    color: #333;
-  }
-
-  .user-info {
-    margin-top: 15px;
-    text-align: left;
-    color: #333;
-  }
   
-  
-  /* Responsive design */
+  /* Responsive design for smaller screens */
   @media (max-width: 480px) {
-    .form-container {
-      padding: 15px;
+    form {
+      padding: 15px 20px;
     }
   
-    .registration-form h2 {
+    h2 {
       font-size: 18px;
     }
   
