@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import "./Login.css";
-
+import "./Auth.css";
+import { NavLink } from "react-router";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,13 +14,16 @@ const Login = () => {
     const loginData = { email, password };
 
     try {
-      const response = await fetch("https://react-interview.crd4lc.easypanel.host/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
+      const response = await fetch(
+        "https://react-interview.crd4lc.easypanel.host/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Login failed");
@@ -57,12 +60,15 @@ const Login = () => {
     if (token) {
       const fetchUserData = async () => {
         try {
-          const response = await fetch("https://react-interview.crd4lc.easypanel.host/api/user", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await fetch(
+            "https://react-interview.crd4lc.easypanel.host/api/user",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           if (!response.ok) {
             throw new Error("Failed to fetch user data");
@@ -89,64 +95,77 @@ const Login = () => {
   };
   return (
     <div className="wrapper">
-    {token && !userData && <div className="loading-text">Loading user data...</div>}
+      {token && !userData && (
+        <div className="loading-text">Loading user data...</div>
+      )}
 
-      {
-        token ? (
-          <div>
+      {token ? (
+        <div>
           {userData && (
-          <div>
+            <div>
               <h3 className="title">User Information</h3>
               <div className="user-text">
-                <p><strong>Name:</strong> {userData.name}</p>
-                <p><strong>Email:</strong> {userData.email}</p>
+                <p>
+                  <strong>Name:</strong> {userData.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {userData.email}
+                </p>
               </div>
               <div className="container">
-                <button className="log" onClick={handleLogout}>Logout</button>
+                <button className="log" onClick={handleLogout}>
+                  Logout
+                </button>
                 {/* <input  onClick={handleLogout} type="submit" value="Logout" /> */}
               </div>
-              
-          </div>
+            </div>
           )}
         </div>
-        ) : (
-          <div>
-             <div className="title"><span>Login Form</span></div>
-            <form  onSubmit={handleSubmit}>
-              <div className="row">
-                <i className="fas fa-user"></i>
-                <input 
-                type="email" 
-                id="email" 
-                placeholder="Email or Phone" 
+      ) : (
+        <div>
+          <div className="title">
+            <span>Login Form</span>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <i className="fa-solid fa-envelope"></i>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter Your Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required />
-              </div>
-              <div className="row">
-                <i className="fas fa-lock"></i>
-                <input 
-                type="password" 
-                placeholder="Password" 
+                required
+              />
+            </div>
+            <div className="row">
+              <i className="fas fa-lock"></i>
+              <input
+                type="password"
+                placeholder="Password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required />
-              </div>
-              <div className="pass"><a href="#">Forgot password?</a></div>
-              {error && <div style={{ color: "red" }}>{error}</div>}
-              <div className="row button">
-                <input type="submit" value="Login" />
-              </div>
-              <div className="signup-link"><span className="sign-text">Not a member?</span> <a href="#">Signup now</a></div>
-            </form>
-          </div>
-        )
-      }
-
-       
-   
-  </div>
+                required
+              />
+            </div>
+            <div className="pass">
+              <a href="#">Forgot password?</a>
+            </div>
+            {error && <div style={{ color: "red" }}>{error}</div>}
+            <div className="row button">
+              <input type="submit" value="Login" />
+            </div>
+            <div className="signup-link">
+              <span className="sign-text">Not a member?</span>{" "}
+              <NavLink to="/" end>
+                Signup now
+              </NavLink>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
   );
 };
 

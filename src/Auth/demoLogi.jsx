@@ -1,138 +1,173 @@
-import { useState, useEffect } from "react";
-import "./Login.css";
+import { useEffect, useState } from "react";
+import "./Register.css";
+import { NavLink } from "react-router";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [token, setToken] = useState(null);
-  const [userData, setUserData] = useState(null);
+function Register() {
+    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+    const [message, setMessage] = useState("");
+    const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+    const [userInfo, setUserInfo] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    const loginData = { email, password };
+    useEffect(() => {
+        if (token) {
+          fetchUserData(token);
+        }
+      }, [token]);
 
-    try {
-      const response = await fetch("https://react-interview.crd4lc.easypanel.host/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
 
-      const data = await response.json();
-
-      if (data.data.token) {
-        setToken(data.data.token);
-        setError(null);
-        localStorage.setItem("token", data.data.token);
-        console.log("Authentication token:", data.data.token);
-      } else {
-        setError("Invalid credentials");
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedUserData = localStorage.getItem("userData");
-
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      const fetchUserData = async () => {
+      const fetchUserData = async (token) => {
         try {
-          const response = await fetch("https://react-interview.crd4lc.easypanel.host/api/user", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
+          const response = await fetch(
+            "https://react-interview.crd4lc.easypanel.host/api/user",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "Application/json",
+              },
+            }
+          );
           if (!response.ok) {
-            throw new Error("Failed to fetch user data");
+            throw new Error("Failed to fetch user data.");
           }
-
           const data = await response.json();
-          setUserData(data);
-          localStorage.setItem("userData", JSON.stringify(data));
-          console.log(data);
-        } catch (err) {
-          setError(err.message);
+          setUserInfo(data);
+          console.log(data)
+        } catch (error) {
+          setMessage(error.message);
         }
       };
-
-      fetchUserData();
-    }
-  }, [token]);
-
-  const handleLogout = () => {
-    setToken(null);
-    setUserData(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userData");
-  };
-
-  return (
-    <div className="wrapper">
-        {token && !userData && <div>Loading user data...</div>}
-
-        {userData && (
-        <div>
-            <h3>User Information</h3>
-            <p><strong>Name:</strong> {userData.name}</p>
-            <p><strong>Email:</strong> {userData.email}</p>
-            <button onClick={handleLogout}>Logout</button>
-        </div>
-        )}
-    <div className="title"><span>Login Form</span></div>
-    <form  onSubmit={handleSubmit}>
-      <div className="row">
-        <i className="fas fa-user"></i>
-        <input 
-        type="email" 
-        id="email" 
-        placeholder="Email or Phone" 
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required />
-      </div>
-      <div className="row">
-        <i className="fas fa-lock"></i>
-        <input 
-        type="password" 
-        placeholder="Password" 
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required />
-      </div>
-      <div className="pass"><a href="#">Forgot password?</a></div>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div className="row button">
-        <input type="submit" value="Login" />
-      </div>
-      <div className="signup-link">Not a member? <a href="#">Signup now</a></div>
-    </form>
+    
 
 
-  </div>
-  );
-};
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value });
+    };
+  
+    const  handleSubmit = async (event) => {
+        event.preventDefault();
+      
+        console.log("Form Data:", formData); // Log formData before sending
+      
+        try {
+          const response = await fetch(
+            "https://react-interview.crd4lc.easypanel.host/api/register",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json", // Corrected casing
+              },
+              body: JSON.stringify(formData),
+            }
+          );
+      
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Registration failed:", errorData); // Log the *full* error object
+            // More user-friendly error display :
+            alert(`Registration failed: ${errorData.message || 'Please check the form'}. See console for details`);
+      
+            // Display errors in the UI 
+            
+      
+            throw new Error(errorData.message || "Registration failed.");
+          }
+      
+          // Handle successful registration
+          const data = await response.json();
+          console.log('Success:', data);
+          setToken(data.data.token);
+          localStorage.setItem("token", data.data.token);
+          console.log('Success:', data.data.token);
+        } catch (error) {
+          console.error("Error during registration:", error);
+          // Handle the error 
+        }
+      }
 
-export default Login;
+
+      const handleLogout = () => {
+        localStorage.removeItem("token");
+        setToken("");
+        setMessage("Logged out successfully.");
+      };
+  
+    return (
+      <>
+         <div className="wrapper">
+
+          {
+            token ? (
+              <div>
+                  {userInfo && (
+                    <div>
+                        <h3 className="title">User Information</h3>
+                        <div className="user-text">
+                          <p><strong>Name:</strong> {userInfo.name}</p>
+                          <p><strong>Email:</strong> {userInfo.email}</p>
+                        </div>
+                        <div className="container">
+                          <button className="log" onClick={handleLogout}>Logout</button>
+                        </div>
+                    </div>
+                  )}
+              </div>
+            ) : (
+              <>
+                <div className="title"><span>Login Form</span></div>
+                <form  onSubmit={handleSubmit}>
+                    <div className="row">
+                        <i className="fas fa-user"></i>
+                        <input 
+                          type="text"
+                          id="name"
+                          placeholder="Enter Your Name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="row">
+                        <i className="fas fa-user"></i>
+                        <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="Enter Your Email" 
+                        value={formData.email}
+                        onChange={handleChange}
+                        required />
+                      </div>
+                      <div className="row">
+                        <i className="fas fa-lock"></i>
+                        <input 
+                          type="password"
+                          id="password"
+                          placeholder="password"
+                          value={formData.password}
+                          onChange={handleChange}
+                          required
+                        />
+                      </div>
+                      <div className="pass"><a href="#">Forgot password?</a></div>
+                      {message && <p className="message">{message}</p>}
+                      <div className="row button">
+                        <input type="submit" value="Register" />
+                      </div>
+                      <div className="signup-link"><span className="sign-text">Already have an account?</span> <NavLink to="/login" end>Login</NavLink></div>
+                  </form>
+              </>
+            )
+          }
+         
+         </div>
+      </>
+
+    );
+  }
+  
+
+export default Register;

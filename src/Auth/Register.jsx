@@ -1,156 +1,186 @@
 import { useEffect, useState } from "react";
-import "./Register.css";
+import "./Auth.css";
+import { NavLink } from "react-router";
 
 function Register() {
-    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-    const [message, setMessage] = useState("");
-    const [token, setToken] = useState(() => localStorage.getItem("token") || "");
-    const [userInfo, setUserInfo] = useState(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [message, setMessage] = useState("");
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+  const [userInfo, setUserInfo] = useState(null);
 
+  useEffect(() => {
+    if (token) {
+      fetchUserData(token);
+    }
+  }, [token]);
 
-    useEffect(() => {
-        if (token) {
-          fetchUserData(token);
+  const fetchUserData = async (token) => {
+    try {
+      const response = await fetch(
+        "https://react-interview.crd4lc.easypanel.host/api/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "Application/json",
+          },
         }
-      }, [token]);
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data.");
+      }
+      const data = await response.json();
+      setUserInfo(data);
+      console.log(data);
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-      const fetchUserData = async (token) => {
-        try {
-          const response = await fetch(
-            "https://react-interview.crd4lc.easypanel.host/api/user",
-            {
-              method: "GET",
-              headers: {
-                "Authorization": `Bearer ${token}`,
-                "Accept": "Application/json",
-              },
-            }
-          );
-          if (!response.ok) {
-            throw new Error("Failed to fetch user data.");
-          }
-          const data = await response.json();
-          setUserInfo(data);
-          console.log(data)
-        } catch (error) {
-          setMessage(error.message);
+    console.log("Form Data:", formData); // Log formData before sending
+
+    try {
+      const response = await fetch(
+        "https://react-interview.crd4lc.easypanel.host/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json", // Corrected casing
+          },
+          body: JSON.stringify(formData),
         }
-      };
-    
+      );
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Registration failed:", errorData); // Log the *full* error object
+        // More user-friendly error display :
+        alert(
+          `Registration failed: ${
+            errorData.message || "Please check the form"
+          }. See console for details`
+        );
 
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-    };
-  
-    const  handleSubmit = async (event) => {
-        event.preventDefault();
-      
-        console.log("Form Data:", formData); // Log formData before sending
-      
-        try {
-          const response = await fetch(
-            "https://react-interview.crd4lc.easypanel.host/api/register",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json", // Corrected casing
-              },
-              body: JSON.stringify(formData),
-            }
-          );
-      
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Registration failed:", errorData); // Log the *full* error object
-            // More user-friendly error display :
-            alert(`Registration failed: ${errorData.message || 'Please check the form'}. See console for details`);
-      
-            // Display errors in the UI 
-            
-      
-            throw new Error(errorData.message || "Registration failed.");
-          }
-      
-          // Handle successful registration
-          const data = await response.json();
-          console.log('Success:', data);
-          setToken(data.data.token);
-          localStorage.setItem("token", data.data.token);
-          console.log('Success:', data.data.token);
-        } catch (error) {
-          console.error("Error during registration:", error);
-          // Handle the error 
-        }
+        // Display errors in the UI
+
+        throw new Error(errorData.message || "Registration failed.");
       }
 
+      // Handle successful registration
+      const data = await response.json();
+      console.log("Success:", data);
+      setToken(data.data.token);
+      localStorage.setItem("token", data.data.token);
+      console.log("Success:", data.data.token);
+    } catch (error) {
+      console.error("Error during registration:", error);
+      // Handle the error
+    }
+  };
 
-      const handleLogout = () => {
-        localStorage.removeItem("token");
-        setToken("");
-        setMessage("Logged out successfully.");
-      };
-  
-    return (
-      <div className="form-container">
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setMessage("Logged out successfully.");
+  };
+
+  return (
+    <>
+      <div className="wrapper">
         {token ? (
-        <div className="logged-in">
-          <h2 className="welcome">Welcome back!</h2>
-          {userInfo && (
-            <div className="user-info">
-              <p><strong>Name:</strong> {userInfo.name}</p>
-              <p><strong>Email:</strong> {userInfo.email}</p>
+          <div>
+            {userInfo && (
+              <div>
+                <h3 className="title">User Information</h3>
+                <div className="user-text">
+                  <p>
+                    <strong>Name:</strong> {userInfo.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {userInfo.email}
+                  </p>
+                </div>
+                <div className="container">
+                  <button className="log" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className="title">
+              <span>Reistration Form</span>
             </div>
-          )}
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <form className="registration-form" onSubmit={handleSubmit}>
-          <h2>Register</h2>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit">Register</button>
-        </form>
-      )}
-        {message && <p className="message">{message}</p>}
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <i className="fas fa-user"></i>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="row">
+                <i className="fa-solid fa-envelope"></i>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="row">
+                <i className="fas fa-lock"></i>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="pass">
+                {message && <p className="message">{message}</p>}
+              </div>
+              <div className="row button">
+                <input type="submit" value="Register" />
+              </div>
+              <div className="signup-link">
+                <span className="sign-text">Already have an account?</span>{" "}
+                <NavLink to="/login" end>
+                  Login
+                </NavLink>
+              </div>
+            </form>
+          </>
+        )}
       </div>
-    );
-  }
-  
+    </>
+  );
+}
 
 export default Register;
