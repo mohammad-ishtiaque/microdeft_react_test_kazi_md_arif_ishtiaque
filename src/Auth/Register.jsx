@@ -67,11 +67,11 @@ function Register() {
           if (!response.ok) {
             const errorData = await response.json();
             console.error("Registration failed:", errorData); // Log the *full* error object
-            // More user-friendly error display (consider a component for this):
+            // More user-friendly error display :
             alert(`Registration failed: ${errorData.message || 'Please check the form'}. See console for details`);
       
-            // Display errors in the UI (use conditional rendering based on errorData.errors)
-            // Example: setErrors(errorData.errors);
+            // Display errors in the UI 
+            
       
             throw new Error(errorData.message || "Registration failed.");
           }
@@ -84,7 +84,7 @@ function Register() {
           console.log('Success:', data.data.token);
         } catch (error) {
           console.error("Error during registration:", error);
-          // Handle the error (display a message to the user)
+          // Handle the error 
         }
       }
 

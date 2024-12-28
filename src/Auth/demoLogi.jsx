@@ -87,65 +87,50 @@ const Login = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userData");
   };
+
   return (
     <div className="wrapper">
-    {token && !userData && <div className="loading-text">Loading user data...</div>}
+        {token && !userData && <div>Loading user data...</div>}
 
-      {
-        token ? (
-          <div>
-          {userData && (
-          <div>
-              <h3 className="title">User Information</h3>
-              <div className="user-text">
-                <p><strong>Name:</strong> {userData.name}</p>
-                <p><strong>Email:</strong> {userData.email}</p>
-              </div>
-              <div className="container">
-                <button className="log" onClick={handleLogout}>Logout</button>
-                {/* <input  onClick={handleLogout} type="submit" value="Logout" /> */}
-              </div>
-              
-          </div>
-          )}
+        {userData && (
+        <div>
+            <h3>User Information</h3>
+            <p><strong>Name:</strong> {userData.name}</p>
+            <p><strong>Email:</strong> {userData.email}</p>
+            <button onClick={handleLogout}>Logout</button>
         </div>
-        ) : (
-          <div>
-             <div className="title"><span>Login Form</span></div>
-            <form  onSubmit={handleSubmit}>
-              <div className="row">
-                <i className="fas fa-user"></i>
-                <input 
-                type="email" 
-                id="email" 
-                placeholder="Email or Phone" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required />
-              </div>
-              <div className="row">
-                <i className="fas fa-lock"></i>
-                <input 
-                type="password" 
-                placeholder="Password" 
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required />
-              </div>
-              <div className="pass"><a href="#">Forgot password?</a></div>
-              {error && <div style={{ color: "red" }}>{error}</div>}
-              <div className="row button">
-                <input type="submit" value="Login" />
-              </div>
-              <div className="signup-link"><span className="sign-text">Not a member?</span> <a href="#">Signup now</a></div>
-            </form>
-          </div>
-        )
-      }
+        )}
+    <div className="title"><span>Login Form</span></div>
+    <form  onSubmit={handleSubmit}>
+      <div className="row">
+        <i className="fas fa-user"></i>
+        <input 
+        type="email" 
+        id="email" 
+        placeholder="Email or Phone" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required />
+      </div>
+      <div className="row">
+        <i className="fas fa-lock"></i>
+        <input 
+        type="password" 
+        placeholder="Password" 
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required />
+      </div>
+      <div className="pass"><a href="#">Forgot password?</a></div>
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      <div className="row button">
+        <input type="submit" value="Login" />
+      </div>
+      <div className="signup-link">Not a member? <a href="#">Signup now</a></div>
+    </form>
 
-       
-   
+
   </div>
   );
 };
