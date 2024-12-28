@@ -1,4 +1,4 @@
-/* Importing Google Fonts - Poppins */
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 * {
@@ -14,8 +14,13 @@ body {
   justify-content: center;
   height: 100vh;
   padding: 15px;
-  background: #1abc9c;
+  background: #999;
   overflow: hidden;
+}
+
+
+.row p{
+  color: #333;
 }
 
 .wrapper {
@@ -28,9 +33,9 @@ body {
 
 .wrapper .title {
   height: 120px;
-  background: #16a085;
+  /* background: #16a085; */
   border-radius: 5px 5px 0 0;
-  color: #fff;
+  color: #333;
   font-size: 30px;
   font-weight: 600;
   display: flex;
@@ -76,29 +81,29 @@ form .row input::placeholder {
 
 .log {
   width: 290px;
-  background-color: #28a88c; /* Green color similar to your example */
-  color: #ffffff; /* White text */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 20px 20px; /* Space inside the .log */
-  font-size: 20px; /* Font size for the text */
+  background-color: #28a88c;
+  color: #ffffff; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 20px 20px; 
+  font-size: 20px; 
   font-weight: 600;
-  font-family: Arial, sans-serif; /* Font style */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Slight shadow for 3D effect */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  font-family: Arial, sans-serif; 
+  cursor: pointer; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; 
 }
 
-/* Hover effect */
+
 .log:hover {
-  background-color: #239a7e; /* Darker shade of green */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Slightly deeper shadow on hover */
+  background-color: #239a7e; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
 }
 
-/* Focus effect */
+
 .log:focus {
-  outline: none; /* Remove default outline */
-  box-shadow: 0px 0px 0px 3px rgba(40, 168, 140, 0.5); /* Add focus ring */
+  outline: none; 
+  box-shadow: 0px 0px 0px 3px rgba(40, 168, 140, 0.5); 
 }
 
 .wrapper form .row i {

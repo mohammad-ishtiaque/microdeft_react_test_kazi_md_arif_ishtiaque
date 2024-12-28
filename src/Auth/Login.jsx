@@ -35,6 +35,7 @@ const Login = () => {
         setToken(data.data.token);
         setError(null);
         localStorage.setItem("token", data.data.token);
+        window.location.href = "/addCourse";
         console.log("Authentication token:", data.data.token);
       } else {
         setError("Invalid credentials");
@@ -87,41 +88,42 @@ const Login = () => {
     }
   }, [token]);
 
-  const handleLogout = () => {
-    setToken(null);
-    setUserData(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userData");
-  };
+  // const handleLogout = () => {
+  //   setToken(null);
+  //   setUserData(null);
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("userData");
+  // };
   return (
     <div className="wrapper">
       {token && !userData && (
         <div className="loading-text">Loading user data...</div>
       )}
 
-      {token ? (
+      {/* {token ? (
         <div>
           {userData && (
-            <div>
-              <h3 className="title">User Information</h3>
-              <div className="user-text">
-                <p>
-                  <strong>Name:</strong> {userData.name}
-                </p>
-                <p>
-                  <strong>Email:</strong> {userData.email}
-                </p>
+            <div className="wrapper">
+              <div className="title">
+                <span>User</span>
               </div>
-              <div className="container">
-                <button className="log" onClick={handleLogout}>
-                  Logout
-                </button>
-                {/* <input  onClick={handleLogout} type="submit" value="Logout" /> */}
-              </div>
+              <form action="#">
+                <div className="row">
+                  <p>
+                    <strong>Name:</strong> {userData.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {userData.email}
+                  </p>
+                </div>
+                <div className="row button">
+                  <input type="submit" onClick={handleLogout} value="Logout" />
+                </div>
+              </form>
             </div>
           )}
         </div>
-      ) : (
+      ) : ( */}
         <div>
           <div className="title">
             <span>Login Form</span>
@@ -164,7 +166,7 @@ const Login = () => {
             </div>
           </form>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

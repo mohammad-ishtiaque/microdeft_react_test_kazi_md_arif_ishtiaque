@@ -1,20 +1,20 @@
-// import { useState } from 'react'
-import Login from "./Auth/Login";
-import Register from "./Auth/Register";
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { BrowserRouter, Routes, Route } from "react-router";
-function App() {
-  // const [count, setCount] = useState(0)
+import { BrowserRouter, Routes, Route } from 'react-router';
+import Login from './Auth/Login';
+import Register from './Auth/Register';
+import AddCourse from './Courses/AddCourse';
+import PrivateOutlet from './Private/PrivateOutlet';
 
+function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route element={<PrivateOutlet />}>
+          <Route path="/addCourse" element={<AddCourse title="AddCourse" />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
