@@ -49,6 +49,3 @@ Microdeft Course Management System is a web application that allows users to reg
 
     ```bash 
     bun run dev
- 
-    
-
