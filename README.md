@@ -35,21 +35,17 @@ Microdeft Course Management System is a web application that allows users to reg
     ```bash
    git clone https://github.com/mohammad-ishtiaque/microdeft_react_test_kazi_md_arif_ishtiaque
 
-2. use bun instead of npm
+2. use bun instead of npm:
 
     ```bash
     npm install -g bun
 
-3. 
+3. change directory:
 
     ```bash
     cd microdeft_react_test_kazi_md_arif_ishtiaquepackage install
 
- 4.
-    ```bash
-    bun install
-
-5. 
+4. run the project into local mechine:
 
     ```bash 
     bun run dev
