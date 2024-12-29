@@ -16,6 +16,9 @@ function Register() {
   const [message, setMessage] = useState("");
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const [userInfo, setUserInfo] = useState(null);
+  // const [users, setusersData] = useState([]);
+
+  console.log(formData)
 
   useEffect(() => {
     if (token) {
@@ -40,7 +43,6 @@ function Register() {
       }
       const data = await response.json();
       setUserInfo(data);
-      console.log(data);
     } catch (error) {
       setMessage(error.message);
     }
@@ -86,6 +88,7 @@ function Register() {
 
       // Handle successful registration
       const data = await response.json();
+      // setusersData(data);
       console.log("Success:", data);
       setToken(data.data.token);
       localStorage.setItem("token", data.data.token);
