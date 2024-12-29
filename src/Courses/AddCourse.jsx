@@ -3,13 +3,15 @@ import "./CourseForm.css";
 import { useAuth } from "../AuthContext";
 
 const AddCourse = () => {
-  const [course, setCourse] = useState({
+
+  const initialCourseState = {
     title: "",
     description: "",
     badge_text: "",
     badge_color: "",
     instructor_name: "",
-  });
+  };
+  const [course, setCourse] = useState(initialCourseState);
 
 
   // console.log(course)
@@ -43,7 +45,9 @@ const AddCourse = () => {
       }
 
       const data = await response.json();
-      console.log("Course added successfully:", data);
+      alert("Course added successfully:", data);
+      console.log(data.data)
+      setCourse(initialCourseState)
     } catch (error) {
       console.error("Error adding course:", error);
     }

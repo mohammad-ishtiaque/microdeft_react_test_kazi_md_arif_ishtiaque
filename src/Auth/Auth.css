@@ -8,13 +8,13 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
+
+.container{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 80vh;
   padding: 15px;
-  background: #999;
   overflow: hidden;
 }
 
@@ -33,7 +33,6 @@ body {
 
 .wrapper .title {
   height: 120px;
-  /* background: #16a085; */
   border-radius: 5px 5px 0 0;
   color: #333;
   font-size: 30px;
@@ -74,9 +73,9 @@ form .row input::placeholder {
 }
 
 
-.container{
+.user-info{
   text-align: center;
-  margin-top: 20px;
+  padding: 10px 20px;
 }
 
 .log {
@@ -151,7 +150,6 @@ form .button input:hover {
 
 
 .user-text{
-  margin-top: 20px;
   text-align: center;
 }
 

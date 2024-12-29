@@ -88,42 +88,12 @@ const Login = () => {
     }
   }, [token]);
 
-  // const handleLogout = () => {
-  //   setToken(null);
-  //   setUserData(null);
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("userData");
-  // };
   return (
-    <div className="wrapper">
-      {token && !userData && (
-        <div className="loading-text">Loading user data...</div>
-      )}
-
-      {/* {token ? (
-        <div>
-          {userData && (
-            <div className="wrapper">
-              <div className="title">
-                <span>User</span>
-              </div>
-              <form action="#">
-                <div className="row">
-                  <p>
-                    <strong>Name:</strong> {userData.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {userData.email}
-                  </p>
-                </div>
-                <div className="row button">
-                  <input type="submit" onClick={handleLogout} value="Logout" />
-                </div>
-              </form>
-            </div>
-          )}
-        </div>
-      ) : ( */}
+    <div className="container">
+      <div className="wrapper">
+        {token && !userData && (
+          <div className="loading-text">Loading user data...</div>
+        )}
         <div>
           <div className="title">
             <span>Login Form</span>
@@ -166,7 +136,7 @@ const Login = () => {
             </div>
           </form>
         </div>
-      {/* )} */}
+      </div>
     </div>
   );
 };

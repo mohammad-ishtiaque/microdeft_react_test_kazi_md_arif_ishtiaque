@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import "./Auth.css";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+// import { useAuth } from "../AuthContext";
 
 function Register() {
+
+  // const { clearToken, clearUser } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -84,6 +89,7 @@ function Register() {
       console.log("Success:", data);
       setToken(data.data.token);
       localStorage.setItem("token", data.data.token);
+      navigate(-1);
       console.log("Success:", data.data.token);
     } catch (error) {
       console.error("Error during registration:", error);
@@ -91,19 +97,14 @@ function Register() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken("");
-    setMessage("Logged out successfully.");
-  };
-
+ 
   return (
-    <>
+    <div className="container">
       <div className="wrapper">
         {token ? (
           <div>
             {userInfo && (
-              <div>
+              <div className="user-info">
                 <h3 className="title">User Information</h3>
                 <div className="user-text">
                   <p>
@@ -112,11 +113,6 @@ function Register() {
                   <p>
                     <strong>Email:</strong> {userInfo.email}
                   </p>
-                </div>
-                <div className="container">
-                  <button className="log" onClick={handleLogout}>
-                    Logout
-                  </button>
                 </div>
               </div>
             )}
@@ -179,7 +175,7 @@ function Register() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
