@@ -43,9 +43,14 @@ Microdeft Course Management System is a web application that allows users to reg
 3. change directory:
 
     ```bash
-    cd microdeft_react_test_kazi_md_arif_ishtiaquepackage install
+    cd microdeft_react_test_kazi_md_arif_ishtiaquepackage
 
-4. run the project into local mechine:
+4.  package install to the mechine:
+    
+    ```bash
+    bun install
+
+5. run the project into local mechine:
 
     ```bash 
     bun run dev
